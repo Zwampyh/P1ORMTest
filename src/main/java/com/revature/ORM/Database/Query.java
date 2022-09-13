@@ -86,12 +86,13 @@ public class Query {
 	}
 	
 
-	public Object where(String what, String table, String column, Class<?> clazz) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+	public Object where(Object what, String table, String column, Class<?> clazz) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
 		ArrayList<Object> values = new ArrayList<>();
 		ArrayList<String> columns = new ArrayList<>();
 		ArrayList<Object> rows = new ArrayList<>();
 		Object row = getConstructor(clazz);
-		final String sql = "SELECT * FROM " + table + " WHERE " + column + " = '" + what + "';";
+		if (what instanceof String) {what = "'" + what + "'";}
+		final String sql = "SELECT * FROM " + table + " WHERE " + column + " = " + what + ";";
 		try(PreparedStatement statement = database.connection.prepareStatement(sql);)
 		{
 			ResultSet set = statement.executeQuery();
