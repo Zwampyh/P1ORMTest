@@ -1,9 +1,12 @@
 package com.revature.ORM.Database;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.revature.ORM.Testing.ObjTest1;
 
 
 
@@ -22,9 +25,21 @@ public class Database {
 	}
 
 
-	public ArrayList<Object>  where(String pk, String table, String column) {
-		ArrayList<Object> values = new Query(this).where(pk, table, column);
-		return values;
+	public Object  where(String what, String table, String column, Class clazz) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+		Object obj = new Query(this).where(what, table, column, clazz);
+		return obj;
 	}
+	
+	
+	public void update(Object obj, String column, String newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		new Query(this).update(obj, column, newValue);
+	}
+
+	public void delete(Object obj) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		new Query(this).delete(obj);
+		
+	}
+	
+
 	
 }

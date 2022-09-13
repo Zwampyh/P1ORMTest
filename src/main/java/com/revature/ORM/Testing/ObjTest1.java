@@ -7,10 +7,8 @@ public class ObjTest1 {
 	public String usernames;
 	public String passwords;
 
-public ObjTest1(String username, String password) {
-	super();
-	this.usernames = username;
-	this.passwords = password;
-}
+	public ObjTest1() {}
+	
+
 
 }

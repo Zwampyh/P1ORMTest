@@ -16,8 +16,9 @@ public class Util {
 	public static String ArrayListToStringWQ(ArrayList<Object> array) {
 		String string = "";
 		for(Object i : array) {
+			if (i instanceof String) {i = "'" + i + "'";} 
 			String temp = i.toString();
-			string += "'" + temp + "', ";	
+			string += "" + temp + ", ";	
 		}
 		string = string.substring(0, string.length()-2);
 		return string;
