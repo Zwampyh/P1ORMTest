@@ -74,7 +74,7 @@ public class Query {
 	}
 
 	
-	public <T> Object getConstructor(Class<?> clazz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public Object getConstructor(Class<?> clazz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		Object row = clazz.getDeclaredConstructor().newInstance();
 		return row;
 	}
@@ -87,6 +87,7 @@ public class Query {
 	
 
 	public Object where(Object what, String table, String column, Class<?> clazz) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+		
 		ArrayList<Object> values = new ArrayList<>();
 		ArrayList<String> columns = new ArrayList<>();
 		ArrayList<Object> rows = new ArrayList<>();
@@ -107,6 +108,7 @@ public class Query {
 			for(int i = 0; i < values.size(); i++) {
 				putValue(row, columns.get(i), values.get(i), clazz);
 				}
+			
 			}
 			
 		} catch (SQLException e) {
@@ -158,13 +160,10 @@ public class Query {
 		Pojo pojo = new Pojo(obj.getClass());
 		ArrayList<String> columns = pojo.columns;
 		String column = columns.get(0);
-		System.out.println(column);
 		ArrayList<Object> values = getValues(obj);
 		Object value = values.get(0);
-		System.out.println(value);
 		if (value instanceof String) {value = "'" + value +"'";}
 		String sql = "DELETE FROM " + table + " WHERE " + column + " = " + value + ";";
-		System.out.println(sql);
 		return sql;
 	}
 		
