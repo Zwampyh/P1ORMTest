@@ -16,6 +16,8 @@ public class Database {
 	String pass;
 	Connection connection = null;
 	
+	public Database() {}
+	
 	public Database(String url, String name, String pass) throws SQLException {
 		this.connection = DriverManager.getConnection(url, name, pass);
 	}
@@ -31,7 +33,7 @@ public class Database {
 	}
 	
 	
-	public void update(Object obj, String column, String newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public void update(Object obj, String column, Object newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		new Query(this).update(obj, column, newValue);
 	}
 

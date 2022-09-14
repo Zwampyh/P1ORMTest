@@ -23,11 +23,11 @@ public class Query {
 	
 	
 	public Query(Database database) {
-		this.database = database;
-
-		
-		
+		this.database = database;	
 	}
+	
+	public Query() {}
+	
 	
 	public ArrayList<Object> getValues(Object obj) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		Pojo pojo = new Pojo(obj.getClass());
@@ -85,7 +85,6 @@ public class Query {
 		prop.field.set(con, value);
 	}
 	
-
 	public Object where(Object what, String table, String column, Class<?> clazz) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
 		
 		ArrayList<Object> values = new ArrayList<>();
@@ -117,7 +116,9 @@ public class Query {
 		return row;
 	}
 
-	public void update(Object obj, String column, String newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	
+	
+	public void update(Object obj, String column, Object newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		final String sql = getUpdateString(obj, column, newValue);
 		
 		try(PreparedStatement statement = database.connection.prepareStatement(sql);)
@@ -126,13 +127,10 @@ public class Query {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 			
-		
-		
 	}
 
-	private String getUpdateString(Object obj, String column, Object newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public String getUpdateString(Object obj, String column, Object newValue) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		String table = getTable(obj);
 		Pojo pojo = new Pojo(obj.getClass());
 		ArrayList<String> columns = pojo.columns;
@@ -155,7 +153,7 @@ public class Query {
 		}
 	}
 
-	private String getDeleteString(Object obj) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public String getDeleteString(Object obj) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		String table = getTable(obj);
 		Pojo pojo = new Pojo(obj.getClass());
 		ArrayList<String> columns = pojo.columns;

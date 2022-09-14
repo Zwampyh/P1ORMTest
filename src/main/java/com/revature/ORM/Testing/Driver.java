@@ -18,7 +18,7 @@ public class Driver {
 		
 		
 		
-		//Database db = new Database("jdbc:postgresql://postgres.ccyxl0ztd58i.us-west-2.rds.amazonaws.com:5432/", System.getenv("db_name"), System.getenv("db_pass"));
+		Database db = new Database("jdbc:postgresql://postgres.ccyxl0ztd58i.us-west-2.rds.amazonaws.com:5432/", System.getenv("db_name"), System.getenv("db_pass"));
 	
 		//ObjTest1 Davinci = new ObjTest1();
 		//Davinci.usernames = "Davinci";
@@ -30,7 +30,7 @@ public class Driver {
 		
 		//Object query =  db.where("Davinci", "login", "usernames", ObjTest1.class);
 		//ObjTest1 row = (ObjTest1) query;
-		
+		//System.out.println(row.passwords);
 		
 		//ObjTest2 acco = new ObjTest2();
 		//acco.usernames = "Davinci";
@@ -39,9 +39,16 @@ public class Driver {
 		
 		//db.insert(acco);
 		
-		//Object account = db.where("Davinci", "account", "usernames", ObjTest2.class);
-		//ObjTest2 acc = (ObjTest2) account;
-		//System.out.println(acc.acc_balance );
+		Object account = db.where("Davinci", "account", "usernames", ObjTest2.class);
+		ObjTest2 acc = (ObjTest2) account;
+		System.out.println(acc.acc_balance );
+		
+		db.update(acc, "acc_balance", 7.0);
+		
+		Object account2 = db.where("Davinci", "account", "usernames", ObjTest2.class);
+		ObjTest2 acc2 = (ObjTest2) account2;
+		System.out.println(acc2.acc_balance );
+		
 		
 		//db.update(Davinci, "passwords", "rdaf");
 		//Object query2 =  db.where("Davinci", "login", "usernames", ObjTest1.class);

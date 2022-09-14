@@ -1,19 +1,16 @@
 package com.revature.ORM.Database;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.revature.ORM.Objects.Pojo;
+
 import com.revature.ORM.Testing.ObjTest1;
 import com.revature.ORM.Testing.ObjTest2;
 
@@ -32,6 +29,7 @@ public class QueryTest {
 	@Mock
 	public Database db;
 	
+	Connection c;
 	
 	public ObjTest1 obj;
 	
@@ -55,6 +53,10 @@ public class QueryTest {
 		obj2.usernames = "uTest";
 		
 		query = new Query(db);
+		
+		
+		
+		
 		
 	}
 	
@@ -90,12 +92,63 @@ public class QueryTest {
 		assertEquals(table, query.getTable(obj2));
 	}
 
-	/* @Test
-	void whereTest() throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+	@Test
+	void whereTestDB() throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException, SQLException {
 		Database db = mock(Database.class);
-		Mockito.when(db.where(obj.usernames, query.getTable(obj), "usernames", obj.getClass())).thenReturn(obj);
 		
-		assertEquals(obj, query.where("uTest", "login", "pTest", obj.getClass()));
-	}*/
+		
+		Mockito.when(db.where(obj.usernames, query.getTable(obj), query.getColumns(obj).get(0), obj.getClass())).thenReturn(obj);
+		
+		assertEquals(obj, db.where("uTest", "login", "usernames", obj.getClass()));
+	}
+	
+	
+	@Test
+	void updateQTest() throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+		Query q = mock(Query.class);
+		
+		Mockito.when(q.where(obj.usernames, query.getTable(obj), query.getColumns(obj).get(0), obj.getClass())).thenReturn(obj);
+		
+		assertEquals(obj, q.where("uTest", "login", "usernames", obj.getClass()));
+	}
+	@Test
+	void insertTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, SQLException {
+		Query q = mock(Query.class);
+		
+		doNothing().when(q).insert(obj);	
+	}
+
+	@Test
+	void deleteTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, SQLException {
+		Query q = mock(Query.class);
+		
+		doNothing().when(q).delete(obj);
+		
+		
+	}
+	
+	@Test
+	void getDeleteStringTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		assertEquals("DELETE FROM login WHERE usernames = 'uTest';", query.getDeleteString(obj));
+	}
+	
+	@Test
+	void getUpdateStringTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		assertEquals("UPDATE login SET usernames = 'testeroni' WHERE usernames = 'uTest';", query.getUpdateString(obj, "usernames", "testeroni"));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
